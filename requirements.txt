@@ -1,0 +1,4 @@
+pyrogram
+aiohttp
+TgCrypto
+python-arq
