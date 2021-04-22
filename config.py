@@ -1,3 +1,3 @@
 TOKEN = "1739748551:AAE_e07fuEIw81l43pkyXc5a4CaF3L1pUrQ"
 BOT_ID = 1739748551
-ARQ_URL = "https://thearq.tech"
+ARQ_API = "https://thearq.tech"
