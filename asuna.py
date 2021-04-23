@@ -103,12 +103,31 @@ async def start_info(_, CallbackQuery):
     await CallbackQuery.message.delete()
     
 
-@asuna.on_message(~filters.edited & ~filters.command("start"))
+@asuna.on_message(~filters.edited & filters.private &~filters.command("start"))
 async def inbox(_, message):
-    if message.chat.type == "private":
-        if not message.text:
+    if not message.text:
+        return
+    query = message.text
+    if len(query) > 50:
+        return
+    try:
+        res = await chatbot(query)
+        await asyncio.sleep(1)
+    except Exception as e:
+        res = str(e)
+    await message.reply_text(res)
+    await asuna.send_chat_action(message.chat.id, "cancel")
+        
+@asuna.on_message(~filters.edited & ~filters.private & ~filters.command("start"))
+async def group(_, message):
+    if message.reply_to_message:
+        if not message.reply_to_message.from_user.id == bot_id:
             return
-        query = message.text
+        await asuna.send_chat_action(message.chat.id, "typing")
+        if not message.text:
+            query = "Hello"
+        else:
+            query = message.text
         if len(query) > 50:
             return
         try:
@@ -118,41 +137,20 @@ async def inbox(_, message):
             res = str(e)
         await message.reply_text(res)
         await asuna.send_chat_action(message.chat.id, "cancel")
-        
-@asuna.on_message(~filters.edited & ~filters.command("start"))
-async def group(_, message):
-    if message.chat.type != "private":
-        if message.reply_to_message:
-            if not message.reply_to_message.from_user.id == bot_id:
-                return
-            await asuna.send_chat_action(message.chat.id, "typing")
-            if not message.text:
-                query = "Hello"
-            else:
-                query = message.text
+    else:
+        if message.text:
+            query = message.text
             if len(query) > 50:
                 return
-            try:
-                res = await chatbot(query)
-                await asyncio.sleep(1)
-            except Exception as e:
-                res = str(e)
-            await message.reply_text(res)
-            await asuna.send_chat_action(message.chat.id, "cancel")
-        else:
-            if message.text:
-                query = message.text
-                if len(query) > 50:
-                    return
-                if re.search("[.|\n]{0,}[a|A][s|S][u|U][n|N][a|A][.|\n]{0,}", query):
-                    await asuna.send_chat_action(message.chat.id, "typing")
-                    try:
-                        res = await chatbot(query)
-                        await asyncio.sleep(1)
-                    except Exception as e:
-                        res = str(e)
-                    await message.reply_text(res)
-                    await asuna.send_chat_action(message.chat.id, "cancel")
+            if re.search("[.|\n]{0,}[a|A][s|S][u|U][n|N][a|A][.|\n]{0,}", query):
+                await asuna.send_chat_action(message.chat.id, "typing")
+                try:
+                    res = await chatbot(query)
+                    await asyncio.sleep(1)
+                except Exception as e:
+                    res = str(e)
+                await message.reply_text(res)
+                await asuna.send_chat_action(message.chat.id, "cancel")
 
 print(
     """
