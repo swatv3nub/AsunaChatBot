@@ -72,7 +72,7 @@ helpo = InlineKeyboardMarkup(
             ]
         )        
 
-@asuna.on_message(filters.command("start"))
+@asuna.on_message(filters.command(["start" , "start@AsunaChatBot"]))
 async def start(_, message):
     if message.chat.type == "private":
         await message.reply_photo(photo=asunapic, caption=start_text, reply_markup=keyboard, parse_mode="markdown")
@@ -103,7 +103,7 @@ async def start_info(_, CallbackQuery):
     await CallbackQuery.message.delete()
     
 
-@asuna.on_message(~filters.edited & filters.private &~filters.command("start"))
+@asuna.on_message(~filters.edited & filters.private &~filters.command(["start" , "start@AsunaChatBot"]))
 async def inbox(_, message):
     if not message.text:
         return
@@ -118,7 +118,7 @@ async def inbox(_, message):
     await message.reply_text(res)
     await asuna.send_chat_action(message.chat.id, "cancel")
         
-@asuna.on_message(~filters.edited & ~filters.private & ~filters.command("start"))
+@asuna.on_message(~filters.edited & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"))
 async def group(_, message):
     if message.reply_to_message:
         if not message.reply_to_message.from_user.id == bot_id:
