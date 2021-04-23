@@ -118,7 +118,7 @@ async def inbox(_, message):
     await message.reply_text(res)
     await asuna.send_chat_action(message.chat.id, "cancel")
         
-@asuna.on_message(~filters.edited & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"))
+@asuna.on_message(~filters.edited & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"]))
 async def group(_, message):
     if message.reply_to_message:
         if not message.reply_to_message.from_user.id == bot_id:
