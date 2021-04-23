@@ -24,7 +24,7 @@ async def chatbot(query):
     return response
 """    
 async def chatbot(query):
-    url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=eliana"
+    url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=asuna"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as res:
             res = await res.json()
