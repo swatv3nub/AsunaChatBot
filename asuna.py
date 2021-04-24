@@ -103,7 +103,7 @@ async def start_info(_, CallbackQuery):
     await CallbackQuery.message.delete()
 
 @asuna.on_message(filters.regex("(?i)eliza"))
-async def(_, message):
+async def eliza(_, message):
     await message.reply_text("Wait Who?")
     return
 
