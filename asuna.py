@@ -42,7 +42,7 @@ info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is
     **• Library Used:** `Pyrogram`
     **• Library Version:** `{__version__}`
     **• Owner | Bot Dev:** @MaskedVirus
-    **• Chatbot API Dev:** @Madepranav
+    **• Self Trained Cell By @MaskedVirus**
     """
     
 asunapic = "https://telegra.ph/file/cb3b9a091ee2480fc2cea.jpg"
