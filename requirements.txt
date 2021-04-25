@@ -1,4 +1,5 @@
 pyrogram
 aiohttp
 TgCrypto
+requests
 python-arq
