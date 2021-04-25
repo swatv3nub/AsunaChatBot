@@ -113,21 +113,6 @@ async def start_info(_, CallbackQuery):
 
     await CallbackQuery.message.delete()
 
-@asuna.on_message(filters.regex("(?i)eliza"))
-async def eliza(_, message):
-    await message.reply_text("Wait Who?")
-    return
-
-@asuna.on_message(filters.regex("(?i)who made u"))
-async def owner(_, message):
-     await message.reply_text("A Guy Made me")
-     return
-
-@asuna.on_message(filters.regex("(?i)who made you"))
-async def ownerrr(_, message):
-     await message.reply_text("A Guy Made me")
-     return
-
 @asuna.on_message(~filters.edited & filters.private & ~filters.command(["start" , "start@AsunaChatBot"]))
 async def inbox(_, message):
     if not message.text:
