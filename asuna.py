@@ -37,7 +37,7 @@ async def chatbot(query):
     'x-rapidapi-key': "SIGN-UP-FOR-KEY",
     'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com"
     }
-    res = requests.request("GET", url, headers=headers)
+    res = requests.get(url, headers=headers)
     x = res.text
     return x
      
