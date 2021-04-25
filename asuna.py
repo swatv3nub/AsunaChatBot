@@ -30,7 +30,7 @@ async def chatbotb(query):
             text = res["message"]
             return text
 """
-async def chatbot(query)
+async def chatbot(query):
      url = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
      async with aiohttp.ClientSession() as session:
         async with session.get(url) as res:
