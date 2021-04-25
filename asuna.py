@@ -16,20 +16,28 @@ asuna = Client(
 arq = ARQ(ARQ_API)
 
 mode = None
-
 """
-async def chatbot(query):
+async def chatbota(query):
     asuna = await arq.luna(query)
     response = asuna.response
     return response
-"""    
-async def chatbot(query):
+    
+async def chatbotb(query):
     url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=Asuna"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as res:
             res = await res.json()
             text = res["message"]
             return text
+"""
+async def chatbot(query)
+     url = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
+     async with aiohttp.ClientSession() as session:
+        async with session.get(url) as res:
+            res = await res.json()
+            text = res["message"]
+            return text
+     
     
 start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
 
@@ -106,6 +114,16 @@ async def start_info(_, CallbackQuery):
 async def eliza(_, message):
     await message.reply_text("Wait Who?")
     return
+
+@asuna.on_message(filters.regex("(?i)who made u"))
+async def owner(_, message):
+     await message.reply_text("A Guy Made me")
+     return
+
+@asuna.on_message(filters.regex("(?i)who made you"))
+async def ownerrr(_, message):
+     await message.reply_text("A Guy Made me")
+     return
 
 @asuna.on_message(~filters.edited & filters.private & ~filters.command(["start" , "start@AsunaChatBot"]))
 async def inbox(_, message):
