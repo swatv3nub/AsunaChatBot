@@ -18,12 +18,12 @@ arq = ARQ(ARQ_API)
 
 mode = None
 """
-async def chatbota(query):
+async def chatbot(query):
     asuna = await arq.luna(query)
     response = asuna.response
     return response
  """   
-async def chatbotb(query):
+async def chatbot(query):
     url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=Asuna"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as res:
