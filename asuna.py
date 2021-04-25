@@ -22,7 +22,7 @@ async def chatbot(query):
     asuna = await arq.luna(query)
     response = asuna.response
     return response
- """   
+  
 async def chatbot(query):
     url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=Asuna"
     async with aiohttp.ClientSession() as session:
@@ -32,15 +32,10 @@ async def chatbot(query):
             return text
 """
 async def chatbot(query):
-     url = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
-     headers = {
-    'x-rapidapi-key': "SIGN-UP-FOR-KEY",
-    'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com"
-    }
-    res = requests.get(url, headers=headers)
-    x = res.text
-    return x
- """    
+     api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
+     res = requests.get(api).json()
+     data = res['cnt']
+     return data    
     
 start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
 
