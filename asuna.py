@@ -22,7 +22,7 @@ async def chatbota(query):
     asuna = await arq.luna(query)
     response = asuna.response
     return response
-    
+ """   
 async def chatbotb(query):
     url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=Asuna"
     async with aiohttp.ClientSession() as session:
@@ -40,7 +40,7 @@ async def chatbot(query):
     res = requests.get(url, headers=headers)
     x = res.text
     return x
-     
+ """    
     
 start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
 
