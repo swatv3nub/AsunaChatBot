@@ -49,6 +49,8 @@ info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is
     **• Library Version:** `{__version__}`
     **• Owner | Bot Dev:** @MaskedVirus
     **• Self-Trained Model using BrainShop •**
+
+    __And Yes, I don't Reply to Stickers__
     """
     
 asunapic = "https://telegra.ph/file/cb3b9a091ee2480fc2cea.jpg"
@@ -108,7 +110,7 @@ async def start_info(_, CallbackQuery):
 
     await CallbackQuery.message.delete()
 
-@asuna.on_message(~filters.edited & filters.private & ~filters.command(["start" , "start@AsunaChatBot"]))
+@asuna.on_message(~filters.edited & ~filters.sticker & filters.private & ~filters.command(["start" , "start@AsunaChatBot"]))
 async def inbox(_, message):
     if not message.text:
         return
@@ -123,7 +125,7 @@ async def inbox(_, message):
     await message.reply_text(res)
     await asuna.send_chat_action(message.chat.id, "cancel")
         
-@asuna.on_message(~filters.edited & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"]))
+@asuna.on_message(~filters.edited & ~filters.sticker & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"]))
 async def group(_, message):
     if message.reply_to_message:
         if not message.reply_to_message.from_user.id == bot_id:
