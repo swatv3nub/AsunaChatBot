@@ -1,6 +1,7 @@
 import asyncio
 import re
 import aiohttp
+import requests
 from config import TOKEN, ARQ_API, BOT_ID as bot_id
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -32,11 +33,13 @@ async def chatbotb(query):
 """
 async def chatbot(query):
      url = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
-     async with aiohttp.ClientSession() as session:
-        async with session.get(url) as res:
-            res = await res.json()
-            text = res["message"]
-            return text
+     headers = {
+    'x-rapidapi-key': "SIGN-UP-FOR-KEY",
+    'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com"
+    }
+    res = requests.request("GET", url, headers=headers)
+    x = res.text
+    return x
      
     
 start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
