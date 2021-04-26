@@ -35,7 +35,7 @@ async def chatbot(query):
 async def chatbot(query):
      translator = google_translator()
      qw, aw = translator.detect(query)
-     if qw == "hi":
+     if qw != "en":
        query = translator.translate(query,lang_tgt='en')
      api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
      res = requests.get(api).json()
