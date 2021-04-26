@@ -41,7 +41,7 @@ async def chatbot(query):
      res = requests.get(api).json()
      data = res['cnt']
      if qw != "en":
-       aww = translator.translate(data,lang_tgt=qw)
+       aww = translator.translate(data,lang_tgt='en')
        return aww
      return data
 
