@@ -6,6 +6,7 @@ from config import TOKEN, ARQ_API, BOT_ID as bot_id
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from Python_ARQ import ARQ
+from google_trans_new import google_translator
 
 asuna = Client(
     ":memory:",
@@ -32,11 +33,19 @@ async def chatbot(query):
             return text
 """
 async def chatbot(query):
+     translator = google_translator()
+     qw, aw = translator.detect(query)
+     if qw != "en":
+       query = translator.translate(query,lang_tgt='en')
      api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
      res = requests.get(api).json()
      data = res['cnt']
-     return data    
-    
+     if qw != "en":
+       aww = translator.translate(data,lang_tgt=qw)
+       return aww
+     return data
+
+
 start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
 
 info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is One of the Anime Themed Chatbot in Telegram.
