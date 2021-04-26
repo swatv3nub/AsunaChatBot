@@ -3,3 +3,4 @@ aiohttp
 TgCrypto
 requests
 python-arq
+google_trans_new
