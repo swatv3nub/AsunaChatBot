@@ -16,7 +16,7 @@ asuna = Client(
 
 mode = None
 
-bot_id = (await asuna.get_me()).id
+bot_id = 1739748551
 
 async def chatbot(query):
      translator = google_translator()
