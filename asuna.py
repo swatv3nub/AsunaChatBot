@@ -2,10 +2,9 @@ import asyncio
 import re
 import aiohttp
 import requests
-from config import TOKEN, ARQ_API, BOT_ID as bot_id
+from config import TOKEN
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from Python_ARQ import ARQ
 from google_trans_new import google_translator
 
 asuna = Client(
@@ -15,23 +14,10 @@ asuna = Client(
     api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e",
 )
 
-arq = ARQ(ARQ_API)
-
 mode = None
-"""
-async def chatbot(query):
-    asuna = await arq.luna(query)
-    response = asuna.response
-    return response
-  
-async def chatbot(query):
-    url = f"https://elianaapi.herokuapp.com/eliana/chatbot?text={query}&name=Asuna"
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as res:
-            res = await res.json()
-            text = res["message"]
-            return text
-"""
+
+bot_id = (await asuna.get_me()).id
+
 async def chatbot(query):
      translator = google_translator()
      qw, aw = translator.detect(query)
@@ -51,9 +37,9 @@ start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If Yo
 info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is One of the Anime Themed Chatbot in Telegram.
 
 **Asuna [アスナ]** System Info:
-    **• Host:** `Heroku`
-    **• OS:** `Debian`
-    **• Python Version:** `3.9.1`
+    **• Host:** ``
+    **• OS:** `Ubuntu`
+    **• Python Version:** `3.9.5`
     **• Library Used:** `Pyrogram`
     **• Library Version:** `{__version__}`
     **• Owner | Bot Dev:** @MaskedVirus
