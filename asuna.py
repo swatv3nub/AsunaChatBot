@@ -2,7 +2,7 @@ import asyncio
 import re
 import aiohttp
 import requests
-from config import TOKEN
+from config import TOKEN, BOT_ID
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from google_trans_new import google_translator
@@ -15,8 +15,6 @@ asuna = Client(
 )
 
 mode = None
-
-bot_id = 1739748551
 
 async def chatbot(query):
      translator = google_translator()
@@ -123,7 +121,7 @@ async def inbox(_, message):
 @asuna.on_message(~filters.edited & ~filters.sticker & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"]))
 async def group(_, message):
     if message.reply_to_message:
-        if not message.reply_to_message.from_user.id == bot_id:
+        if not message.reply_to_message.from_user.id == BOT_ID:
             return
         await asuna.send_chat_action(message.chat.id, "typing")
         if not message.text:
