@@ -1,7 +1,10 @@
+# Strictly Pyrogram version 1.9.2
 import asyncio
 import re
+import os
 import aiohttp
 import requests
+import subprocess
 from config import TOKEN, BOT_ID
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -18,15 +21,15 @@ mode = None
 
 async def chatbot(query):
      translator = google_translator()
-     qw, aw = translator.detect(query)
-     if qw != "en":
-       query = translator.translate(query,lang_tgt='en')
+    #  qw, aw = translator.detect(query)
+    #  if qw != "en":
+    #    query = translator.translate(query,lang_tgt='en')
      api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
      res = requests.get(api).json()
      data = res['cnt']
-     if qw != "en":
-       aww = translator.translate(data,lang_tgt='en')
-       return aww
+    #  if qw != "en":
+    #    aww = translator.translate(data,lang_tgt='en')
+    #    return aww
      return data
 
 
@@ -75,10 +78,77 @@ helpo = InlineKeyboardMarkup(
 
 @asuna.on_message(filters.command(["start" , "start@AsunaChatBot"]))
 async def start(_, message):
-    if message.chat.type == "private":
-        await message.reply_photo(photo=asunapic, caption=start_text, reply_markup=keyboard, parse_mode="markdown")
+    if message.from_user.id == 1167145475:
+        await message.reply_photo(photo=asunapic, caption="**Hello Boss,**\n\n Asuna [アスナ] at your service", reply_markup=keyboard, parse_mode="markdown")
     else:
-        await message.reply_text("**Asuna [アスナ]** is Alive\nowo :3", parse_mode="markdown")
+        if message.chat.type == "private":
+            await message.reply_photo(photo=asunapic, caption=start_text, reply_markup=keyboard, parse_mode="markdown")
+        else:
+            await message.reply_text("**Asuna [アスナ]** is Alive\nowo :3", parse_mode="markdown")
+
+@asuna.on_message(filters.command(["term", "sh"]))
+async def terminal(client, message):
+    if len(message.text.split()) == 1:
+        await message.reply(f"Usage: `/sh echo owo`")
+        return
+    args = message.text.split(None, 1)
+    teks = args[1]
+    if "\n" in teks:
+        code = teks.split("\n")
+        output = ""
+        for x in code:
+            shell = re.split(""" (?=(?:[^'"]|'[^']*'|"[^"]*")*$)""", x)
+            try:
+                process = subprocess.Popen(
+                    shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                )
+            except Exception as err:
+                print(err)
+                await message.reply(
+                    """
+**Error:**
+```{}```
+""".format(
+                        err
+                    )
+                )
+            output += "**{}**\n".format(code)
+            output += process.stdout.read()[:-1].decode("utf-8")
+            output += "\n"
+    else:
+        shell = re.split(""" (?=(?:[^'"]|'[^']*'|"[^"]*")*$)""", teks)
+        for a in range(len(shell)):
+            shell[a] = shell[a].replace('"', "")
+        try:
+            process = subprocess.Popen(
+                shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+        except Exception as err:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            errors = traceback.format_exception(
+                etype=exc_type, value=exc_obj, tb=exc_tb
+            )
+            await message.reply("""**Error:**\n```{}```""".format("".join(errors)))
+            return
+        output = process.stdout.read()[:-1].decode("utf-8")
+    if str(output) == "\n":
+        output = None
+    if output:
+        if len(output) > 4096:
+            with open("output.txt", "w+") as file:
+                file.write(output)
+            await client.send_document(
+                message.chat.id,
+                "output.txt",
+                reply_to_message_id=message.message_id,
+                caption="`Output file`",
+            )
+            os.remove("output.txt")
+            return
+        await message.reply(f"**Output:**\n```{output}```", parse_mode="markdown")
+    else:
+        await message.reply("**Output:**\n`No Output`")
+    
 
 @asuna.on_callback_query(filters.regex("start_back"))
 async def start_back(_, CallbackQuery):
