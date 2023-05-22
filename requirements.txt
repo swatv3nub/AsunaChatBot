@@ -1,6 +1,5 @@
-pyrogram
+pyrogram==1.2.9
 aiohttp
 TgCrypto
 requests
 python-arq
-google_trans_new

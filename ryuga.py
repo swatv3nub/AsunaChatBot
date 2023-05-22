@@ -8,9 +8,9 @@ import subprocess
 from config import TOKEN, BOT_ID
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from google_trans_new import google_translator
+#from google_translate_py import Translator
 
-asuna = Client(
+ryuga = Client(
     ":memory:",
     bot_token=TOKEN,
     api_id=6,
@@ -20,24 +20,18 @@ asuna = Client(
 mode = None
 
 async def chatbot(query):
-     translator = google_translator()
-    #  qw, aw = translator.detect(query)
-    #  if qw != "en":
-    #    query = translator.translate(query,lang_tgt='en')
-     api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
-     res = requests.get(api).json()
-     data = res['cnt']
-    #  if qw != "en":
-    #    aww = translator.translate(data,lang_tgt='en')
-    #    return aww
-     return data
+    #query = Translator().translate(query, "", "en")
+    api = f"http://api.brainshop.ai/get?bid=155827&key=tVhEcHqwrXqtCNZT&uid=73948&msg={query}"
+    res = requests.get(api).json()
+    data = res['cnt']
+    return data
+ 
 
+start_text = """Hello, I am **Ryuga [リュウガ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
 
-start_text = """Hello, I am **Asuna [アスナ]**, An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!"""
+info_text = f"""Build To Be One of The Badass Emperor,\n**Ryuga [リュウガ]** is One of the Anime Themed Chatbot in Telegram.
 
-info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is One of the Anime Themed Chatbot in Telegram.
-
-**Asuna [アスナ]** System Info:
+**ryuga [リュウガ]** System Info:
     **• Host:** ``
     **• OS:** `Ubuntu`
     **• Python Version:** `3.9.5`
@@ -49,14 +43,14 @@ info_text = f"""Build To Be One of The Cutest ChatBot,\n**Asuna [アスナ]** is
     __And Yes, I don't Reply to Stickers__
     """
     
-asunapic = "https://telegra.ph/file/cb3b9a091ee2480fc2cea.jpg"
+ryugapic = "https://telegra.ph/file/9e9297bec48970099f1a3.jpg"
     
 keyboard = InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
                         text="Share Me",
-                        url="tg://msg?text=Hi+%E2%9D%A4%EF%B8%8F%2C%0D%0AI+Found+an+Cute+and+Unique+ChatBot+By+%40MaskedVirus.+%0D%0ABot+Username+%3A+%40AsunaChatBot",
+                        url="tg://msg?text=Hi+%E2%9D%A4%EF%B8%8F%2C%0D%0AI+Found+an+Unique+ChatBot+By+%40MaskedVirus.+%0D%0ABot+Username+%3A+%40EmperorRyugaBot",
                     ),
                     InlineKeyboardButton(
                         text="Info",
@@ -76,20 +70,20 @@ helpo = InlineKeyboardMarkup(
             ]
         )        
 
-@asuna.on_message(filters.command(["start" , "start@AsunaChatBot"]))
+@ryuga.on_message(filters.command(["start" , "start@EmperorRyugaBot"]))
 async def start(_, message):
     if message.from_user.id == 1167145475:
-        await message.reply_photo(photo=asunapic, caption="**Hello Boss,**\n\n Asuna [アスナ] at your service", reply_markup=keyboard, parse_mode="markdown")
+        await message.reply_photo(photo=ryugapic, caption="**Hello Boss,**\n\n Ryuga [リュウガ] at your service", reply_markup=keyboard, parse_mode="markdown")
     else:
         if message.chat.type == "private":
-            await message.reply_photo(photo=asunapic, caption=start_text, reply_markup=keyboard, parse_mode="markdown")
+            await message.reply_photo(photo=ryugapic, caption=start_text, reply_markup=keyboard, parse_mode="markdown")
         else:
-            await message.reply_text("**Asuna [アスナ]** is Alive\nowo :3", parse_mode="markdown")
+            await message.reply_text("**Ryuga [リュウガ]** is Alive\nowo :3", parse_mode="markdown")
 
-@asuna.on_message(filters.command(["term", "sh"]))
+@ryuga.on_message(filters.command(["term", "sh"]))
 async def terminal(client, message):
     if len(message.text.split()) == 1:
-        await message.reply(f"Usage: `/sh echo owo`")
+        await message.reply(f"Usage: `.sh echo owo`")
         return
     args = message.text.split(None, 1)
     teks = args[1]
@@ -102,7 +96,7 @@ async def terminal(client, message):
                 process = subprocess.Popen(
                     shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
-            except Exception as err:
+            except Exception as err: 
                 print(err)
                 await message.reply(
                     """
@@ -150,11 +144,11 @@ async def terminal(client, message):
         await message.reply("**Output:**\n`No Output`")
     
 
-@asuna.on_callback_query(filters.regex("start_back"))
+@ryuga.on_callback_query(filters.regex("start_back"))
 async def start_back(_, CallbackQuery):
-    await asuna.send_photo(
+    await ryuga.send_photo(
         CallbackQuery.message.chat.id,
-        photo=asunapic,
+        photo=ryugapic,
         caption=start_text,
         reply_markup=keyboard
     )
@@ -162,20 +156,20 @@ async def start_back(_, CallbackQuery):
     await CallbackQuery.message.delete()
     
 
-@asuna.on_callback_query(filters.regex("info"))
+@ryuga.on_callback_query(filters.regex("info"))
 async def start_info(_, CallbackQuery):
-    await asuna.send_photo(
+    await ryuga.send_photo(
         CallbackQuery.message.chat.id,
-        photo=asunapic,
+        photo=ryugapic,
         caption=info_text,
         reply_markup=helpo
     )
 
     await CallbackQuery.message.delete()
 
-@asuna.on_message(~filters.edited & ~filters.sticker & filters.private & ~filters.command(["start" , "start@AsunaChatBot"]))
+@ryuga.on_message(~filters.edited & ~filters.sticker & filters.private & ~filters.command(["start" , "start@EmperorRyugaBot"]))
 async def inbox(_, message):
-    if not message.text:
+    if not message.text:  
         return
     query = message.text
     if len(query) > 50:
@@ -186,14 +180,14 @@ async def inbox(_, message):
     except Exception as e:
         res = str(e)
     await message.reply_text(res)
-    await asuna.send_chat_action(message.chat.id, "cancel")
+    await ryuga.send_chat_action(message.chat.id, "cancel")
         
-@asuna.on_message(~filters.edited & ~filters.sticker & ~filters.private & ~filters.command(["start", "start@AsunaChatBot"]))
+@ryuga.on_message(~filters.edited & ~filters.sticker & ~filters.private & ~filters.command(["start", "start@EmperorRyugaBot"]))
 async def group(_, message):
     if message.reply_to_message:
         if not message.reply_to_message.from_user.id == BOT_ID:
             return
-        await asuna.send_chat_action(message.chat.id, "typing")
+        await ryuga.send_chat_action(message.chat.id, "typing")
         if not message.text:
             query = "Hello"
         else:
@@ -206,30 +200,30 @@ async def group(_, message):
         except Exception as e:
             res = str(e)
         await message.reply_text(res)
-        await asuna.send_chat_action(message.chat.id, "cancel")
+        await ryuga.send_chat_action(message.chat.id, "cancel")
     else:
         if message.text:
             query = message.text
             if len(query) > 50:
                 return
             if re.search("[.|\n]{0,}[a|A][s|S][u|U][n|N][a|A][.|\n]{0,}", query):
-                await asuna.send_chat_action(message.chat.id, "typing")
+                await ryuga.send_chat_action(message.chat.id, "typing")
                 try:
                     res = await chatbot(query)
                     await asyncio.sleep(1)
                 except Exception as e:
                     res = str(e)
                 await message.reply_text(res)
-                await asuna.send_chat_action(message.chat.id, "cancel")
+                await ryuga.send_chat_action(message.chat.id, "cancel")
 
 print(
     """
 -------------------------------------
-| Turned the Cutiepie Asuna Online! |
+| Turned Dragon Emperor Ryuga Online! |
 -------------------------------------
 
 """
 )
 
 
-asuna.run()
+ryuga.run()
